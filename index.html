@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <!-- Tell the Browswer what codetype we are using-->
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #userGuessImage {
+            text-align: center;
+            margin: 0 auto;
+            width:100%;
+            max-width:400px;    
+            height: 230px;
+            background: url(https://i.pinimg.com/originals/39/a8/a9/39a8a94ce5460913d84f755e87c61cf9.gif) 50% 0;
+        }
+        #computerGuessImage {
+            text-align: center;
+            margin: 0 auto;
+            width:100%;
+            max-width:400px;
+            height: 230px;
+            background: url(https://i.pinimg.com/originals/39/a8/a9/39a8a94ce5460913d84f755e87c61cf9.gif) 50% 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <header class="col-sm-12 text-center">
+                <h1>Harrison's Rock, Paper, Scissors Game</h1>
+            </header>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="game">
+                    <div class="row">
+                        <div class="col-sm-12 text-center"><h2 id="instructions">Press r, p, or s to compete</h1><p id="playAgain"></p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 text-center"><div id="userGuessImage"></div><h3 id="yourGuess"></h2></div>
+                        <div class="col-sm-12 col-md-6 text-center"><div id="computerGuessImage"></div><h3 id="computerGuess"></h2></div>
+                    </div>
+                    <div class="row">
+                        <!-- <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Wins</th>
+                                    <th scope="col">Losses</th>
+                                    <th scope="col">Ties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                        <div class="col-sm-12 text-center"><strong><span class="" id="wins"></span></strong></div>
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-12 text-center"><strong><span class="" id="losses"></span></strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center"><strong><span class="" id="ties"></span></strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript">
+        var computerChoices, userGuessText, userGuessImage, userGuessImageImg, computerGuessText, computerGuessImage, computerGuessImageImg, winsText, lossesText, tiesText, instructions, wins, losses, ties;
+
+        computerChoices = ["r","p","s"]; //computer's guess
+        wins = 0; // wins start at zero
+        losses = 0; // losses start at zero
+        ties = 0; // ties start at zero
+        
+        // set the variables to find their corresponding element on the page
+        userGuessImage = document.getElementById("userGuessImage"); 
+        userGuessText = document.getElementById("yourGuess"); 
+        computerGuessImage = document.getElementById("computerGuessImage"); 
+        computerGuessText = document.getElementById("computerGuess");
+        winsText = document.getElementById("wins");
+        lossesText = document.getElementById("losses");
+        tiesText = document.getElementById("ties");
+        instructions = document.getElementById("instructions");
+        playAgain = document.getElementById("playAgain");
+
+        // Whenever a key is pressed, alert "pressed a button".
+        document.onkeyup = function(event) {
+
+            // which key did the user press?
+            var userGuess = event.key; 
+            
+            // // Let the computer make a random guess
+            // Take the array of choices, determine the length of the array, pick an index between 0 and the length of the array
+            var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+            
+            // Conditional Logic
+            if ((userGuess === "r") || (userGuess === "p") || (userGuess === "s")) {
+                if ((userGuess === "r" && computerGuess === "s") ||
+                    (userGuess === "s" && computerGuess === "p") ||
+                    (userGuess === "p" && computerGuess === "r")) {
+                        wins++; // increase number of wins
+                } else if (userGuess === computerGuess) {
+                    ties++; // increase number of ties if the user and computer throw the same hand
+                } else {
+                    losses++; // increase number of losses
+                }
+                instructions.textContent = "Game Over"; // Remove instructions when game starts
+                playAgain.textContent = "Press r, s, or p to Play Again";
+
+                // Convert letters into what they mean
+                (userGuess === "r") ? (userGuess = "rock") + (userGuessImage.style.backgroundPosition = "50% 0") : "";
+                (userGuess === "p") ? (userGuess = "paper") + (userGuessImage.style.backgroundPosition = "50% 100%") : "";
+                (userGuess === "s") ? (userGuess = "scissors") + (userGuessImage.style.backgroundPosition = "50% 50%") : "";
+                
+                (computerGuess === "r") ? (computerGuess = "rock") + (computerGuessImage.style.backgroundPosition = "50% 0") : "";
+                (computerGuess === "p") ? (computerGuess = "paper") + (computerGuessImage.style.backgroundPosition = "50% 100%") : "";
+                (computerGuess === "s") ? (computerGuess = "scissors") + (computerGuessImage.style.backgroundPosition = "50% 50%") : "";
+                
+
+                // Display what hands were thrown, show wins, losses and ties
+                userGuessText.textContent = "You threw " + userGuess;
+                computerGuessText.textContent = "Computer threw " + computerGuess;
+                winsText.textContent = "wins: " + wins;
+                lossesText.textContent = "losses: " + losses;
+                tiesText.textContent = "ties: " + ties;
+            }
+        };
+    </script>
+</body>
+</html>
